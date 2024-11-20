@@ -70,6 +70,9 @@ make stop
 
 ## Directory Structure
 
+The project directory structure is as follows:
+
+```
 todo-microservices-app/
 ├── cmd/ # Command-line applications for each service
 ├── api/ # API definitions and Protocol Buffers
@@ -80,6 +83,7 @@ todo-microservices-app/
 ├── scripts/ # Utility scripts for building and managing the application
 ├── go.mod # Go module file
 └── go.sum # Go module dependencies
+```
 
 ## Contributing
 

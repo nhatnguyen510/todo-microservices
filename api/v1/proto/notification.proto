@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package notification.v1;
+
+option go_package = "./notification";
+
+import "google/protobuf/timestamp.proto";
+
+// NotificationType enum defines different types of notifications
+enum NotificationType {
+  NOTIFICATION_TYPE_UNSPECIFIED = 0;
+  NOTIFICATION_TYPE_TODO_CREATED = 1;
+  NOTIFICATION_TYPE_TODO_UPDATED = 2;
+  NOTIFICATION_TYPE_TODO_DELETED = 3;
+  NOTIFICATION_TYPE_TODO_COMPLETED = 4;
+}
+
+// Notification message represents a notification in the system
+message Notification {
+  string id = 1;
+  string user_id = 2;
+  string title = 3;
+  string message = 4;
+  NotificationType type = 5;
+  bool read = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+// Request/Response messages
+message CreateNotificationRequest {
+  string user_id = 1;
+  string title = 2;
+  string message = 3;
+  NotificationType type = 4;
+}
+
+message CreateNotificationResponse {
+  Notification notification = 1;
+}
+
+message GetNotificationRequest {
+  string id = 1;
+}
+
+message GetNotificationResponse {
+  Notification notification = 1;
+}
+
+message GetUserNotificationsRequest {
+  string user_id = 1;
+  bool unread_only = 2;
+}
+
+message GetUserNotificationsResponse {
+  repeated Notification notifications = 1;
+}
+
+message MarkNotificationAsReadRequest {
+  string id = 1;
+}
+
+message MarkNotificationAsReadResponse {
+  Notification notification = 1;
+}
+
+message DeleteNotificationRequest {
+  string id = 1;
+}
+
+message DeleteNotificationResponse {
+  bool success = 1;
+}
+
+// NotificationService defines the notification service
+service NotificationService {
+  rpc CreateNotification(CreateNotificationRequest) returns (CreateNotificationResponse) {}
+  rpc GetNotification(GetNotificationRequest) returns (GetNotificationResponse) {}
+  rpc GetUserNotifications(GetUserNotificationsRequest) returns (GetUserNotificationsResponse) {}
+  rpc MarkNotificationAsRead(MarkNotificationAsReadRequest) returns (MarkNotificationAsReadResponse) {}
+  rpc DeleteNotification(DeleteNotificationRequest) returns (DeleteNotificationResponse) {}
+}
